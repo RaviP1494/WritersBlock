@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
+import NavBar from "./components/navbar.js";
+
+import Home from "./routes/home.js";
+import SignUp from "./routes/signup.js";
+import LogIn from "./routes/login.js";
+import WBlock from "./routes/wblock.js";
+import RBlock from "./routes/rblock.js";
+
+import "./styles/App.css";
+
+export default function App() {
+    const [username, setUsername] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="main">
+      <BrowserRouter>
+
+      <NavBar
+      username={username}
+      setUsername={setUsername}
+      />
+
+      <Routes>
+        <Route exact path="/" element={
+            <Home />}>
+        </Route>
+        <Route exact path="/login" element={
+            <LogIn 
+            setUsername = {setUsername}
+            />}>
+        </Route>
+        <Route exact path="/signup" element={
+            <SignUp
+            setUsername = {setUsername}
+            />}>
+        </Route>
+        <Route exact path="/wblock" element={
+            <WBlock 
+           username = {username}
+           />}>
+        </Route>
+        <Route exact path="/rblock" element={
+            <RBlock
+           username = {username}
+           />}>
+        </Route>
+      </Routes>
+
+      </BrowserRouter>
+      </div>
   );
 }
-
-export default App;

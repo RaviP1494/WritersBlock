@@ -1,0 +1,14 @@
+.spurtographer{
+    display: flex;
+    flex-flow: column nowrap;
+    align-content: center;
+    margin: auto;
+    width: fit-content;
+}
+
+.delay-box{
+    display: flex;
+    margin: auto;
+    width: fit-content;
+    border: 2px solid black;
+}

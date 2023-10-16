@@ -1,0 +1,9 @@
+.minstream{
+    display: flex;
+    flex-flow: column nowrap;
+    text-align: center;
+    border: 1px solid blue;
+    border-radius: 20%;
+    width: fit-content;
+    padding: 20px;
+}

@@ -1,0 +1,39 @@
+.streamheader{
+    display: grid;
+    text-align: center;
+    gap: 4px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas: "ula uca ura"
+                         "ulb ucb urb"
+                         "mc mc mc"
+                         "dc dc dc";
+}
+
+.title{
+    grid-area: mc;
+}
+
+.streamdetails{
+    grid-area: dc;
+}
+
+.targetbutton{
+    grid-area: ulb;
+}
+
+.closebutton{
+    grid-area: ura;
+}
+
+.suspendbutton{
+    grid-area: ula;
+}
+
+.savebutton{
+    grid-area: uca;
+}
+
+.viewmodebutton{
+    grid-area: urb;
+}
