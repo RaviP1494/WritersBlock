@@ -1,8 +1,23 @@
-export default function Spurt({spurt}){
+import "../styles/Spurt.css";
+export default function Spurt({spurt, selectedSpurtId, spurtSelect, viewMode}){
     function handleClick(e){
         console.log(`span: ${spurt.tSpan/1000}`);
+        spurtSelect(spurt);
     }
-    return (
-        <span onClick={handleClick}>{spurt.text}</span>
-    );
+
+    if(viewMode === 1 || viewMode === 2){
+        return (
+            <>
+            <div 
+            className="spurt" 
+            onClick={handleClick}>
+            <span>{spurt.createTime} : </span>
+            {spurt.text}
+            </div>
+            <hr/>
+            </>
+        );
+    }else{
+        return (<span className="spurt" onClick={handleClick}>{spurt.text}</span>);
+    }
 };

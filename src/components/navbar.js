@@ -4,27 +4,30 @@ import "../styles/NavBar.css";
 
 export default function NavBar({username, setUsername}){
     return (
-    <div>
+    <div className="bar">
 
+        <span>
         <Link to = "/">
         |Home|
         </Link>
-
-      { username ? 
-        (
-      <span>
-      <span>{username}</span>
+        { username && (
         <Link to = "/wblock">
             |W Block|
         </Link>
-        <Link to = "/rblock">
-            |R Block|
-        </Link>
+        )}
+        </span>
+      { username ? 
+        (
+      <>
+      <span style={{alignSelf: "center"}}>
+        {username}
+      </span>
+      <span>
         <Link to = "/" onClick={()=>setUsername("")}>
             |Sign Out|
         </Link>
       </span>
-
+      </>
         ) : (
 
       <span>

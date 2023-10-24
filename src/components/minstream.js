@@ -1,25 +1,63 @@
+import { useState } from "react"
 import "../styles/MinStream.css";
 
-export default function MinStream({stream, closeStream, openStream}){
-    const createDTime = new Date(stream.createDTime);
+export default function MinStream({suspenStream, dispatch, setSuspStreams}){
+    const [updatedTitle, setUpdatedTitle] = useState(suspenStream.title);
+
+    const createDTime = new Date(suspenStream.createDTime);
     const createDate = createDTime.toLocaleString().split(",")[0];
-    const totalSpurtTSpan = stream.spurts.length > 0 ? 
-        stream.spurts.reduce(
+    const totalSpurtTSpan = suspenStream.spurts.length > 0 ? 
+        suspenStream.spurts.reduce(
         (total, currSpurt)=>
         total+= currSpurt.tSpan, 0
     ) : null;
 
+    function openStream(stream){
+        dispatch({
+            type: "streamresume",
+            stream: stream
+        });
+        closeStream(stream.id);
+    }
+
+    function closeStream(id){
+        setSuspStreams((prev) => prev.filter((stream) => stream.id !== id));
+        dispatch({
+            type: "clearinfoblock"
+        });
+    }
+
+    function startTitleEdit(){
+        dispatch({
+            type: "suspstreamtitleeditstart"
+        });
+    }
+
+    function endTitleEdit(){
+        dispatch({
+            type: "suspstreamtitleeditend",
+            title: updatedTitle
+        });
+    }
+
     return (
         <div className="minstream">
         <div className="buttons">
-        <button onClick={()=>openStream(stream)}>
+        <button onClick={()=>openStream(suspenStream)}>
         Open</button>
         <button>
         Save</button>
-        <button onClick={()=>closeStream(stream.id)}>
-        Close</button>
+        <button onClick={()=>closeStream(suspenStream.id)}>
+        Delete</button>
         </div>
-        <h3>{stream.title}</h3>
+        { ("editTitleState" in suspenStream && suspenStream.editTitleState) ? (
+            <div>
+            <input value={updatedTitle} onChange={(e)=>setUpdatedTitle(e.target.value)}/>
+            <button onClick={endTitleEdit}>change</button>
+            </div>
+        ) : (
+            <h3 onClick={()=>startTitleEdit((prev)=>!prev)}>{suspenStream.title}</h3>
+        ) }
         <div>
             <div>
             <div>Created On: </div>
@@ -27,7 +65,7 @@ export default function MinStream({stream, closeStream, openStream}){
             </div>
             <div>
             <span>Spurts: </span>
-            <span>{stream.spurts.length}</span>
+            <span>{suspenStream.spurts.length}</span>
             </div>
             {totalSpurtTSpan && (
                 <div>
@@ -35,10 +73,10 @@ export default function MinStream({stream, closeStream, openStream}){
                 <div>{totalSpurtTSpan/1000} seconds</div>
                 </div>
             )}
-            {stream.dbStreamId ? (
+            {suspenStream.dbStreamId ? (
                 <div>
                 <span>Saved At: </span>
-                <span>{stream.saveDTime}</span>
+                <span>{suspenStream.saveDTime}</span>
                 </div>
             ) : (
                 <div>

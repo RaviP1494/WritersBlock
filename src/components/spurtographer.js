@@ -5,7 +5,7 @@ import WritersBlock from "../components/writersblock.js";
 import "../styles/Spurtographer.css";
 
 export default function Spurtographer({dispatch}){
-    const [spurtDelay, setSpurtDelay] = useState(7000);
+    const [spurtDelay, setSpurtDelay] = useState(2000);
 
     function handleSpurtDelayChange(increasing){
         if(increasing){
@@ -24,9 +24,6 @@ export default function Spurtographer({dispatch}){
 
     return (
         <div className="spurtographer">
-            <button onClick={addNewStream}>
-            New Stream
-            </button>
             <div className="delay-box">
             <button 
             onClick={()=>handleSpurtDelayChange(false)}>
@@ -42,6 +39,9 @@ export default function Spurtographer({dispatch}){
             spurtDelay={spurtDelay}
             dispatch={dispatch}
             />
+            <button onClick={addNewStream}>
+            New Stream
+            </button>
         </div>
     );
 }

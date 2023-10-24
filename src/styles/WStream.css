@@ -3,11 +3,5 @@
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    word-wrap: break-word;
-    max-width: 450px;
 }
 
-.spurtsbox{
-    line-height: 1.5;
-    letter-spacing: -.5px;
-}

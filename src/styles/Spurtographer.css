@@ -4,6 +4,7 @@
     align-content: center;
     margin: auto;
     width: fit-content;
+    grid-area: middle;
 }
 
 .delay-box{

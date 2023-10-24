@@ -17,10 +17,14 @@ export default function WritersBlock({spurtDelay, dispatch}){
         setSpurtTimeoutId(setTimeout(
             ()=>{
                 if(currText){
+                    const now = new Date();
+                    const createDTime = now.toLocaleString().split(",");
                     dispatch({
                         type: "spurtEnd",
                         spurt: {
                             text: currText, 
+                            createDate: createDTime[0],
+                            createTime: createDTime[1],
                             tSpan: Date.now() - startTime
                         }
                     });

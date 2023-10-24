@@ -8,7 +8,6 @@ import Home from "./routes/home.js";
 import SignUp from "./routes/signup.js";
 import LogIn from "./routes/login.js";
 import WBlock from "./routes/wblock.js";
-import RBlock from "./routes/rblock.js";
 
 import "./styles/App.css";
 
@@ -40,11 +39,6 @@ export default function App() {
         </Route>
         <Route exact path="/wblock" element={
             <WBlock 
-           username = {username}
-           />}>
-        </Route>
-        <Route exact path="/rblock" element={
-            <RBlock
            username = {username}
            />}>
         </Route>

@@ -4,7 +4,7 @@ import "../styles/StreamsBox.css";
 
 export default function StreamsBox({streamsObj, dispatch, setSuspStreams}){
     return (
-        <div style={{border:"1px solid red"}}>
+        <div>
         <h1 style={{textAlign:"center"}}>
         Open Streams
         </h1>
@@ -12,6 +12,7 @@ export default function StreamsBox({streamsObj, dispatch, setSuspStreams}){
         {streamsObj.streams.map((stream)=>
             <WStream 
             key={stream.id} 
+            selectedSpurtId={streamsObj.selectedSpurtId}
             stream={stream}
             dispatch={dispatch}
             setSuspStreams={setSuspStreams}/>

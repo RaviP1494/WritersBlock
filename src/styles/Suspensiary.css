@@ -1,6 +1,11 @@
-.suspendedstreams{
+.suspensiary{
+    grid-area: left;
+    margin-left: 10vw;
+}
+
+.suspended-streams{
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column nowrap;
     justify-content: center;
 }
 

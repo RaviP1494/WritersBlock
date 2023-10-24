@@ -2,19 +2,25 @@ import { useState } from "react";
 
 import "../styles/StreamHeader.css";
 
-export default function StreamHeader({stream, dispatch, viewMode, setViewMode, setSuspStreams}){
+export default function StreamHeader({stream, dispatch, viewMode, setViewMode, setSuspStreams, setBlindMode}){
     const [showDetails, setShowDetails] = useState(false);
 
     const createDTimeObj = new Date(stream.createDTime);
     const createDTime = createDTimeObj.toLocaleString().split(",");
     const createDate = createDTime[0];
     const createTime = createDTime[1];
-
     const totalSpurtTSpan = stream.spurts.length > 0 ? 
         stream.spurts.reduce(
         (total, currSpurt)=>
         total+= currSpurt.tSpan, 0
     ) : null;
+
+    function titleClick(){
+        dispatch({
+            type: "streamtitleclick",
+            stream: stream
+        });
+    }
 
     function targetStream(){
         dispatch({
@@ -32,9 +38,9 @@ export default function StreamHeader({stream, dispatch, viewMode, setViewMode, s
 
     function cycleView(){
         setViewMode((prev)=>(prev+1) % 3);
-        //0 = spurt span
-        //1 = linebreak
-        //2 = atomic spurts (flexbox of circles)
+        //0 = legato
+        //1 = staccato
+        //2 = occatats
     }
 
     function suspendStream(){
@@ -47,7 +53,9 @@ export default function StreamHeader({stream, dispatch, viewMode, setViewMode, s
 
     return (
         <div className="streamheader">
-        <h3 className="title">{stream.title}</h3>
+        <h3 
+        onClick={titleClick} 
+        className="title">{stream.title}</h3>
         <button 
         className="targetbutton"
         onClick={targetStream}>
@@ -72,6 +80,11 @@ export default function StreamHeader({stream, dispatch, viewMode, setViewMode, s
         className="savebutton"
         onClick={saveStream}>
         Save
+        </button>
+        <button
+        className="blindbutton"
+        onClick={setBlindMode}>
+        Blind
         </button>
         {showDetails ? (
             <div className="streamdetails">
@@ -119,4 +132,4 @@ export default function StreamHeader({stream, dispatch, viewMode, setViewMode, s
     );
 };
 
-const VIEW_MODE_NAMES = ["Legato","Staccato","Atomic"];
+const VIEW_MODE_NAMES = ["Legato","Staccato","otaccatS"];

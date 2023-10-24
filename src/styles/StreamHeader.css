@@ -1,4 +1,6 @@
 .streamheader{
+    margin-top: 20px;
+    margin-bottom: 20px;
     display: grid;
     text-align: center;
     gap: 4px;
@@ -11,11 +13,11 @@
 }
 
 .title{
-    grid-area: mc;
+    grid-area: dc;
 }
 
 .streamdetails{
-    grid-area: dc;
+    grid-area: mc;
 }
 
 .targetbutton{
@@ -32,6 +34,10 @@
 
 .savebutton{
     grid-area: uca;
+}
+
+.blindbutton{
+    grid-area: ucb;
 }
 
 .viewmodebutton{

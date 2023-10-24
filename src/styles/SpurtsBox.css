@@ -1,0 +1,9 @@
+.spurtsbox{
+    line-height: 1.5;
+    border-top: 2px solid black;
+    letter-spacing: -.5px;
+    width: 450px;
+    overflow-wrap: break-word;
+    padding: 40px;
+}
+

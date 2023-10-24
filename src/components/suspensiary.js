@@ -1,14 +1,11 @@
-import MinStream from "../components/minstream.js";
-
 import "../styles/Suspensiary.css";
 
 export default function Suspensiary({dispatch, suspStreams, setSuspStreams}){
-    function openStream(stream){
+    function selectStream(stream){
         dispatch({
-            type: "streamresume",
+            type: "suspstreamselect",
             stream: stream
         });
-        closeStream(stream.id);
     }
 
     function closeStream(id){
@@ -16,19 +13,18 @@ export default function Suspensiary({dispatch, suspStreams, setSuspStreams}){
     }
 
     return (
-        <div>
+        <div className="suspensiary">
         <h1 className="title">
         Suspensiary
         </h1>
-        <div className="suspendedstreams">
-            {suspStreams.map((stream)=>
-                <MinStream 
-                key={stream.id}
-                stream={stream}
-                closeStream={closeStream}
-                openStream={openStream}
-                />)
-            }
+        <div className="suspended-streams">
+        { suspStreams.map((stream)=> {
+            return <button 
+            key={stream.id}
+            onClick={()=>selectStream(stream)}>
+            {stream.title}
+            </button>
+        })}
         </div>
         </div>
     );

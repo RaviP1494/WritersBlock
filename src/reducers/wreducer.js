@@ -73,128 +73,102 @@ export default function wReducer(streamsObj, action){
                 streams: [...streamsObj.streams, action.stream],
                 targetedStreamId: action.stream.id
             }
-        case "spurtclick":
-            // spurt edit button submit
-            if (action.spurt.focusState === "edit") {
-                const updatedStreams = streamsObj.streams.map(
-                    (stream) => {
-                        const spurtIndex = stream.spurts.findIndex(
-                            (spurt) => spurt.id === action.spurt.id
-                        );
-                        if (spurtIndex === -1) {
-                            return stream;
-                        }
-                        const newSpurts = stream.spurts.map((spurt) => {
-                            if (spurt.id !== action.spurt.id) {
+        case "spurtselect":
+            return {
+                ...streamsObj,
+                suspenSpurt: {...action.spurt, streamId: action.streamId},
+                suspenStream: null
+                };
+        case "suspstreamselect":
+            return {
+                ...streamsObj,
+                suspenSpurt: null,
+                suspenStream: action.stream
+            };
+        case "streamtitleclick":
+            return {
+                ...streamsObj,
+                suspenSpurt: null,
+                suspenStream: action.stream
+            }
+        case "clearinfoblock":
+            return {
+                ...streamsObj,
+                suspenSpurt: null,
+                suspenStream: null
+            };
+        case "suspstreamtitleeditstart":
+            return {
+                ...streamsObj,
+                suspenStream: {
+                    ...streamsObj.suspenStream,
+                    editTitleState: true
+                }
+            }
+        case "suspstreamtitleeditend":
+            return {
+                ...streamsObj,
+                suspenStream: {
+                    ...streamsObj.suspenStream,
+                    editTitleState: false,
+                    title: action.title
+                },
+                streams: streamsObj.streams.map((stream)=>{
+                    if(stream.id !== streamsObj.suspenStream.id){
+                        return stream;
+                    }
+                    return {
+                        ...stream,
+                        title: action.title
+                    }
+                })
+            };
+        case "spurtdelete":
+            return {
+                ...streamsObj,
+                streams: streamsObj.streams.map((stream)=>{
+                    if(stream.id !== action.spurt.streamId){
+                        return stream;
+                    }
+                    return {...stream, spurts: stream.spurts.filter((spurt)=>{
+                        return spurt.id !== action.spurt.id;
+                    })};
+                })
+            };
+        case "spurteditstart":
+            return {
+                ...streamsObj, 
+                suspenSpurt: {
+                    ...streamsObj.suspenSpurt,
+                    editState: true
+                }
+            };
+        case "spurteditend":
+            return {
+                ...streamsObj,
+                suspenSpurt: {
+                    ...streamsObj.suspenSpurt,
+                    text: action.suspenSpurt.text,
+                    editState: false
+                },
+                streams: streamsObj.streams.map((stream)=>{
+                    if(stream.id !== action.suspenSpurt.streamId){
+                        return stream;
+                    }
+                    else{
+                        return {...stream, spurts: stream.spurts.map((spurt)=>{
+                            if(spurt.id !== action.suspenSpurt.id){
                                 return spurt;
                             }
-                            return { ...action.spurt, focusState: null};
-                        });
-                        return { 
-                            ...stream, 
-                            spurts: newSpurts, 
-                            ableToSave: true 
-                        };
-                    }
-                );
-                return {
-                    ...streamsObj,
-                    streams: updatedStreams,
-                    clickedSpurtId: null,
-                };
-            }
-            // first spurt click
-            if (
-                !streamsObj.clickedSpurtId &&
-                streamsObj.clickedSpurtId !== 0
-            ) {
-                const updatedStreams = streamsObj.streams.map(
-                    (stream) => {
-                        const newSpurts = stream.spurts.map((spurt) => {
-                            if (spurt.id !== action.spurt.id) {
-                                return spurt;
+                            else{
+                                return  {
+                                    ...spurt, 
+                                    text: action.suspenSpurt.text
+                                }
                             }
-                            return { ...spurt, focusState: "clicked" };
-                        });
-                        return { ...stream, spurts: newSpurts };
+                        })};
                     }
-                );
-                return {
-                    ...streamsObj,
-                    streams: updatedStreams,
-                    clickedSpurtId: action.spurt.id,
-                };
-            }
-            // edit spurt, second click same spurt
-            else if (streamsObj.clickedSpurtId === action.spurt.id) {
-                const updatedStreams = streamsObj.streams.map(
-                    (stream) => {
-                        const spurtIndex = stream.spurts.findIndex(
-                            (spurt) => spurt.id === action.spurt.id
-                        );
-                        if (spurtIndex === -1) {
-                            return stream;
-                        }
-                        return {
-                            ...stream,
-                            spurts: stream.spurts.map((spurt, i) =>
-                                i === spurtIndex ? { ...spurt, focusState: "edit" } : spurt
-                            ),
-                            ableToSave: false
-                        };
-                    }
-                );
-                return {
-                    ...streamsObj,
-                    clickedSpurtId: null,
-                    streams: updatedStreams,
-                };
-            }
-            // second click new spurt, move old spurt to position immediately after new spurt
-            else {
-                let movingSpurt;
-                const deleteClickedSpurtStreams = streamsObj.streams.map(
-                    (stream) => {
-                        const clickedIndex = stream.spurts.findIndex(
-                            (spurt) => spurt.id === streamsObj.clickedSpurtId
-                        );
-                        if (clickedIndex === -1) {
-                            return stream;
-                        }
-                        movingSpurt = stream.spurts[clickedIndex];
-                        return {
-                            ...stream,
-                            spurts: stream.spurts.filter((spurt, i) => i !== clickedIndex),
-                            ableToSave: true
-                        };
-                    }
-                );
-                const addedClickedSpurtStreams = deleteClickedSpurtStreams.map(
-                    (stream) => {
-                        const clickedIndex = stream.spurts.findIndex(
-                            (spurt) => spurt.id === action.spurt.id
-                        );
-                        if (clickedIndex === -1) {
-                            return stream;
-                        }
-                        const newSpurts = [...stream.spurts];
-                        newSpurts.splice(clickedIndex + 1, 0, {
-                            ...movingSpurt,
-                            focusState: null,
-                        });
-                        return { 
-                            ...stream, 
-                            spurts: newSpurts, 
-                            ableToSave: true 
-                        };
-                    }
-                );
-                return {
-                    ...streamsObj,
-                    clickedSpurtId: null,
-                    streams: addedClickedSpurtStreams,
-                };
-            }
+                })};
         default:
             return streamsObj;
     }

@@ -1,12 +1,21 @@
 import { useState } from "react";
 
-import Spurt from "./spurt.js";
+import SpurtsBox from "./spurtsbox.js";
 import StreamHeader from "./streamheader.js";
 
 import "../styles/WStream.css";
 
-export default function WStream({stream, dispatch, setSuspStreams}){
-    const [viewMode, setViewMode] = useState(0);
+export default function WStream({stream, dispatch, setSuspStreams, selectedSpurtId}){
+    const [viewMode, setViewMode] = useState(2);
+    const [blindMode, setBlindMode] = useState(false);
+
+    function spurtSelect(spurt){
+        dispatch({
+            type: "spurtselect",
+            spurt: spurt,
+            streamId: stream.id
+        })
+    }
 
     return (
         <div className="streamview">
@@ -15,13 +24,15 @@ export default function WStream({stream, dispatch, setSuspStreams}){
         dispatch={dispatch}
         viewMode={viewMode}
         setViewMode={setViewMode}
-        setSuspStreams={setSuspStreams}/>
-        <div className="spurtsbox">
-        {stream.spurts.map((spurt)=>
-            <Spurt 
-            key={spurt.id}
-            spurt={spurt}/>)}
-        </div>
+        setSuspStreams={setSuspStreams}
+        setBlindMode={()=>setBlindMode(!blindMode)}/>
+        { !blindMode && 
+            <SpurtsBox 
+            spurts={stream.spurts}
+            spurtSelect={spurtSelect}
+            viewMode={viewMode}
+            />
+        }
         </div>
     );
 };

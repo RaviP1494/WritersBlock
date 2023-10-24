@@ -1,0 +1,12 @@
+.info-block{
+    height: 200px;
+    width: 200px;
+    word-wrap: break-word;
+    grid-area: right;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.info-clear-btn{
+    margin: auto;
+}
