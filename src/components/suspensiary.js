@@ -8,10 +8,6 @@ export default function Suspensiary({dispatch, suspStreams, setSuspStreams}){
         });
     }
 
-    function closeStream(id){
-        setSuspStreams((prev) => prev.filter((stream) => stream.id !== id));
-    }
-
     return (
         <div className="suspensiary">
         <h1 className="title">

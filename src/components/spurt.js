@@ -1,5 +1,5 @@
 import "../styles/Spurt.css";
-export default function Spurt({spurt, selectedSpurtId, spurtSelect, viewMode}){
+export default function Spurt({spurt, spurtSelect, viewMode}){
     function handleClick(e){
         console.log(`span: ${spurt.tSpan/1000}`);
         spurtSelect(spurt);

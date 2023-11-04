@@ -5,7 +5,7 @@ import StreamHeader from "./streamheader.js";
 
 import "../styles/WStream.css";
 
-export default function WStream({stream, dispatch, setSuspStreams, selectedSpurtId}){
+export default function WStream({stream, dispatch, setSuspStreams}){
     const [viewMode, setViewMode] = useState(2);
     const [blindMode, setBlindMode] = useState(false);
 

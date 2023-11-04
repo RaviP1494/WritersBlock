@@ -12,7 +12,6 @@ export default function StreamsBox({streamsObj, dispatch, setSuspStreams}){
         {streamsObj.streams.map((stream)=>
             <WStream 
             key={stream.id} 
-            selectedSpurtId={streamsObj.selectedSpurtId}
             stream={stream}
             dispatch={dispatch}
             setSuspStreams={setSuspStreams}/>
