@@ -4,43 +4,61 @@ import Spurtographer from "../components/spurtographer.js";
 import StreamsBox from "../components/streamsbox.js";
 import Suspensiary from "../components/suspensiary.js";
 import InfoBlock from "../components/infoblock.js";
-import wReducer from "../reducers/wreducer.js";
+import streamReducer from "../reducers/streamsReducer.js";
 
 import "../styles/WBlock.css"
-const initialStreamsObj = {
-    nextStreamId: 1,
-    targetedStreamId: 0,
-    suspenSpurt: null,
-    suspenStream: null,
-    nextSpurtId: 0,
-    streams: [{
-        id: 0,
-        dbStreamId: null,
-        title: "Starter Stream",
-        ableToSave: false,
-        spurts: [],
-        tags: [],
-        createDTime: Date.now()
-    }]
-}
+
+//const initialStreamsObj = {
+    //nextStreamId: 1,
+    //targetedStreamId: 0,
+    //suspenSpurt: null,
+    //suspenStream: null,
+    //nextSpurtId: 0,
+    //streams: [{
+        //id: 0,
+        //dbStreamId: null,
+        //title: "Starter Stream",
+        //ableToSave: false,
+        //spurts: [],
+        //tags: [],
+        //createDTime: Date.now()
+    //}]
+//}
+
+const initialStream = {
+    id: 0,
+    dbStreamId: null,
+    title: "Starter Stream",
+    ableToSave: false,
+    spurts: [],
+    tags: [],
+    createDTime: Date.now()
+};
 
 
 export default function WBlock({username}) {
-    const [suspStreams, setSuspStreams] = useState([]);
-    const [streamsObj, wDispatch] = useReducer(
-        wReducer, initialStreamsObj
+    const [openStream, openDispatch] = useReducer(
+        streamReducer, initialStream
     );
+    const [suspenItems, setSuspenItems] = useState([]);
+    const [focusedItem, setFocusedItem] = useState({});
+    const [nextSpurtId, setNextSpurtId] = useState(0);
+    const [nextStreamId, setNextStreamId] = useState(1);
 
     return (
         <div>
         <h1 style={{textAlign: "center"}}>Writer's Block</h1>
         <div className="wblock">
         <Suspensiary
-        dispatch={wDispatch}
-        suspStreams={suspStreams}
-        setSuspStreams={setSuspStreams} />
+        suspenItems={suspenItems}
+        setFocusedItem={setFocusedItem} />
         <Spurtographer 
-        dispatch={wDispatch} />
+        openDispatch={openDispatch}
+        nextStreamId={nextStreamId}
+        nextSpurtId={nextSpurtId}
+        setNextStreamId={setNextStreamId}
+        setNextSpurtId={setNextSpurtId}
+        />
         <InfoBlock 
         suspenSpurt={streamsObj.suspenSpurt}
         suspenStream={streamsObj.suspenStream}

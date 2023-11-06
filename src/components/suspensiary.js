@@ -1,11 +1,8 @@
 import "../styles/Suspensiary.css";
 
-export default function Suspensiary({dispatch, suspStreams, setSuspStreams}){
-    function selectStream(stream){
-        dispatch({
-            type: "suspstreamselect",
-            stream: stream
-        });
+export default function Suspensiary({suspenItems, setFocusedItem}){
+    function focusItem(item){
+        setFocusedItem(item);
     }
 
     return (
@@ -14,11 +11,11 @@ export default function Suspensiary({dispatch, suspStreams, setSuspStreams}){
         Suspensiary
         </h1>
         <div className="suspended-streams">
-        { suspStreams.map((stream)=> {
+        { suspenItems.map((item)=> {
             return <button 
-            key={stream.id}
-            onClick={()=>selectStream(stream)}>
-            {stream.title}
+            key={item.id}
+            onClick={()=>focusItem(item)}>
+            {item.title}
             </button>
         })}
         </div>

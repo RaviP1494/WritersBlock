@@ -4,7 +4,7 @@ import WritersBlock from "../components/writersblock.js";
 
 import "../styles/Spurtographer.css";
 
-export default function Spurtographer({dispatch}){
+export default function Spurtographer({openDispatch, nextStreamId, nextSpurtId, setNextStreamId, setNextSpurtId}){
     const [spurtDelay, setSpurtDelay] = useState(2000);
 
     function handleSpurtDelayChange(increasing){
@@ -17,9 +17,11 @@ export default function Spurtographer({dispatch}){
     }
 
     function addNewStream(e){
-        dispatch({
-            type: "streamaddnew"
+        openDispatch({
+            type: "addStream",
+            nextStreamId: nextStreamId,
         });
+        setNextStreamId((prev)=>prev+1);
     }
 
     return (
@@ -37,7 +39,9 @@ export default function Spurtographer({dispatch}){
             </div>
             <WritersBlock 
             spurtDelay={spurtDelay}
-            dispatch={dispatch}
+            openDispatch={openDispatch}
+            nextSpurtId={nextSpurtId}
+            setNextSpurtId={setNextSpurtId}
             />
             <button onClick={addNewStream}>
             New Stream

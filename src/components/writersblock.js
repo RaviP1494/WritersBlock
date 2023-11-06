@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import "../styles/WritersBlock.css";
 
-export default function WritersBlock({spurtDelay, dispatch}){
+export default function WritersBlock({spurtDelay, openDispatch, nextSpurtId, setNextSpurtId}){
     const [currText, setCurrText] = useState("");
     const [spurtTimeoutId, setSpurtTimeoutId] = useState(null);
     const [startTime, setStartTime] = useState(null);
@@ -19,15 +19,18 @@ export default function WritersBlock({spurtDelay, dispatch}){
                 if(currText){
                     const now = new Date();
                     const createDTime = now.toLocaleString().split(",");
-                    dispatch({
-                        type: "spurtEnd",
+                    openDispatch({
+                        type: "addSpurt",
                         spurt: {
+                            id: nextSpurtId,
                             text: currText, 
+                            createDTime: Date.now(),
                             createDate: createDTime[0],
                             createTime: createDTime[1],
                             tSpan: Date.now() - startTime
                         }
                     });
+                    setNextSpurtId((prev)=>prev+1);
                 }
                 setCurrText("");
                 setSpurtTimeoutId(null);
