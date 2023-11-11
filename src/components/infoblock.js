@@ -1,32 +1,44 @@
-import SuspenSpurt from "./suspenspurt.js";
-import SuspenSpurtEdit from "./suspenspurtedit.js";
-import MinStream from "./minstream.js";
+import InfoSpurt from "./suspenspurt.js";
+import InfoSpurtEdit from "./suspenspurtedit.js";
+import InfoStream from "./infostream.js";
 
 import "../styles/InfoBlock.css";
-export default function InfoBlock({suspenSpurt, suspenStream, dispatch, setSuspStreams}){
+export default function InfoBlock({focusedItem, setFocusedItem, setSuspenItems, openDispatch, addNewStream}){
     let display;
     function clearInfo(){
-        dispatch({
-            type: "clearinfoblock"
-        });
+        setFocusedItem(null);
     }
-    if(suspenSpurt !== null){
-        display = suspenSpurt.editState ? 
-            <SuspenSpurtEdit suspenSpurt={suspenSpurt}
-            dispatch={dispatch}
-            />
-            :
-            <SuspenSpurt suspenSpurt={suspenSpurt}
-            dispatch={dispatch}
-            />;
+
+    function suspendOpenStream(){
+        setSuspenItems((prev)=>[...prev, focusedItem.stream]);
+        addNewStream();
+        clearInfo();
     }
-    else if(suspenStream !== null){
-        display = <MinStream suspenStream={suspenStream} 
-        dispatch={dispatch} 
-        setSuspStreams={setSuspStreams}/>
+
+    function openSuspenStream(){
+        //FUCK
+    }
+
+    if (!focusedItem){
+        display = <p style={{textAlign: "center"}}>Hi I'm Empty</p>;
     }
     else{
-        display = <p style={{textAlign: "center"}}>Hi I'm Empty</p>
+        switch (focusedItem.type){
+            case "openStream":
+                display = <InfoStream
+                            stream={focusedItem.stream}
+                            moveStream={suspendOpenStream}
+                            />
+                break;
+            case "suspenStream":
+                display = <InfoStream
+                            stream={focusedItem.stream}
+                            moveStream={openSuspenStream}
+                            />
+                break;
+            default:
+                display = <p>wat</p>;
+        }
     }
 
     return (

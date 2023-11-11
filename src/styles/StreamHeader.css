@@ -5,41 +5,23 @@
     text-align: center;
     gap: 4px;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto auto 1fr auto;
-    grid-template-areas: "ula uca ura"
-                         "ulb ucb urb"
-                         "mc mc mc"
-                         "dc dc dc";
+    grid-template-rows: auto auto;
+    grid-template-areas: "tl tc tr"
+                         "bc bc bc";
 }
 
 .title{
-    grid-area: dc;
-}
-
-.streamdetails{
-    grid-area: mc;
-}
-
-.targetbutton{
-    grid-area: ulb;
-}
-
-.closebutton{
-    grid-area: ura;
-}
-
-.suspendbutton{
-    grid-area: ula;
-}
-
-.savebutton{
-    grid-area: uca;
-}
-
-.blindbutton{
-    grid-area: ucb;
+    grid-area: bc;
 }
 
 .viewmodebutton{
-    grid-area: urb;
+    grid-area: tc;
+}
+
+.blindbutton{
+    grid-area: tl;
+}
+
+.focusbutton{
+    grid-area: tr;
 }

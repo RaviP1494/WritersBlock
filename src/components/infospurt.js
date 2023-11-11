@@ -1,5 +1,5 @@
 import "../styles/SuspenSpurt.css";
-export default function SuspenSpurt({suspenSpurt, dispatch}){
+export default function InfoSpurt({suspenSpurt, dispatch}){
     const createDTimeObj = new Date(suspenSpurt.createDTime);
     const createDTime = createDTimeObj.toLocaleString().split(",");
     const createDate = createDTime[0];

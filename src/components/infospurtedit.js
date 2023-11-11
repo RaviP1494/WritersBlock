@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import "../styles/SuspenSpurt.css";
-export default function SuspenSpurtEdit({suspenSpurt, dispatch}){
+export default function InfoSpurtEdit({suspenSpurt, dispatch}){
     const [currText, setCurrText] = useState(suspenSpurt.text);
 
     function spurtEditEnd(){

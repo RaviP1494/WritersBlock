@@ -1,7 +1,7 @@
 import { useState, useReducer, useContext } from "react";
 
 import Spurtographer from "../components/spurtographer.js";
-import StreamsBox from "../components/streamsbox.js";
+import WStream from "../components/wstream.js";
 import Suspensiary from "../components/suspensiary.js";
 import InfoBlock from "../components/infoblock.js";
 import streamReducer from "../reducers/streamsReducer.js";
@@ -41,9 +41,17 @@ export default function WBlock({username}) {
         streamReducer, initialStream
     );
     const [suspenItems, setSuspenItems] = useState([]);
-    const [focusedItem, setFocusedItem] = useState({});
+    const [focusedItem, setFocusedItem] = useState(null);
     const [nextSpurtId, setNextSpurtId] = useState(0);
     const [nextStreamId, setNextStreamId] = useState(1);
+
+    function addNewStream(e){
+        openDispatch({
+            type: "addStream",
+            nextStreamId: nextStreamId,
+        });
+        setNextStreamId((prev)=>prev+1);
+    }
 
     return (
         <div>
@@ -58,18 +66,21 @@ export default function WBlock({username}) {
         nextSpurtId={nextSpurtId}
         setNextStreamId={setNextStreamId}
         setNextSpurtId={setNextSpurtId}
+        addNewStream={addNewStream}
         />
         <InfoBlock 
-        suspenSpurt={streamsObj.suspenSpurt}
-        suspenStream={streamsObj.suspenStream}
-        dispatch={wDispatch}
-        setSuspStreams={setSuspStreams}
+        focusedItem ={focusedItem}
+        setFocusedItem ={setFocusedItem}
+        setSuspenItems ={setSuspenItems}
+        openDispatch ={openDispatch}
+        addNewStream={addNewStream}
         />
         </div>
-        <StreamsBox 
-        streamsObj={streamsObj}
-        dispatch={wDispatch}
-        setSuspStreams={setSuspStreams}/>
+        <WStream 
+        stream={openStream}
+        dispatch={openDispatch}
+        setFocusedItem={setFocusedItem}
+        />
         </div>
     );
 }

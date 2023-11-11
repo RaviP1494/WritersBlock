@@ -5,7 +5,7 @@ import StreamHeader from "./streamheader.js";
 
 import "../styles/WStream.css";
 
-export default function WStream({stream, dispatch, setSuspStreams}){
+export default function WStream({stream, dispatch, setFocusedItem}){
     const [viewMode, setViewMode] = useState(2);
     const [blindMode, setBlindMode] = useState(false);
 
@@ -24,8 +24,9 @@ export default function WStream({stream, dispatch, setSuspStreams}){
         dispatch={dispatch}
         viewMode={viewMode}
         setViewMode={setViewMode}
-        setSuspStreams={setSuspStreams}
-        setBlindMode={()=>setBlindMode(!blindMode)}/>
+        setBlindMode={()=>setBlindMode(!blindMode)}
+        setFocusedItem={setFocusedItem}
+        />
         { !blindMode && 
             <SpurtsBox 
             spurts={stream.spurts}
